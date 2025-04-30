@@ -79,7 +79,7 @@ const Product = () => {
 
   return (
     <div className='flex flex-col'>
-      <div className='flex flex-row gap-5'>
+      <div className='flex flex-col sm:flex-row gap-5'>
         {/* Category filter */}
         <div>
           <button className={`py-1 w-36 px-3 border rounded text-sm ${showFilterCategory ? 'bg-primary text-white' : ''}`}
@@ -136,7 +136,7 @@ const Product = () => {
 
         {/* Price filter */}
         <div>
-          <button className={`py-1 w-72 px-3 border rounded text-sm ${showFilterPrice ? 'bg-primary text-white' : ''}`}
+          <button className={`py-1 w-36 px-3 border rounded text-sm ${showFilterPrice ? 'bg-primary text-white' : ''}`}
                   onClick={() => setShowFilterPrice(prev => !prev)}>
             {minPrice || maxPrice ? `Price: [${minPrice || 0} - ${maxPrice || '∞'}]` : 'Filter price'}
           </button>
