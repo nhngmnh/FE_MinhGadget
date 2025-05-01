@@ -18,7 +18,6 @@ const Cart = () => {
         headers: { token },
       });
       if (response.data) {
-        console.log({ success: true, data: response.data });
         setCart(response.data.cartData);
       }
     } catch (error) {
