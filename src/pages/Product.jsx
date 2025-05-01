@@ -20,17 +20,13 @@ const Product = () => {
 
   const [category, setCategory] = useState(getLocal('category', ''));
   const [brand, setBrand] = useState(getLocal('brand', ''));
-  const [sortOrder, setSortOrder] = useState(getLocal('sortOrder', ''));
-  const [minPrice, setMinPrice] = useState(getLocal('minPrice', ''));
-  const [maxPrice, setMaxPrice] = useState(getLocal('maxPrice', ''));
-
+  const [sortOrder,setSortOrder]=useState('');
+  const [maxPrice,setMaxPrice]=useState(null);
+  const [minPrice,setMinPrice]=useState(null);
   // Lưu vào localStorage khi thay đổi
   useEffect(() => {
     localStorage.setItem('category', category);
     localStorage.setItem('brand', brand);
-    localStorage.setItem('sortOrder', sortOrder);
-    localStorage.setItem('minPrice', minPrice);
-    localStorage.setItem('maxPrice', maxPrice);
   }, [search, category, brand, sortOrder, minPrice, maxPrice]);
 
   // Lấy sản phẩm
@@ -40,27 +36,25 @@ const Product = () => {
         const res = await axios.get(`${backendurl}/api/user/get-products`, {
           params: { query: search, category, brand, minPrice, maxPrice }
         });
-        setFilterPro(res.data.products);
-        setSortFlag(prev => 1 - prev);
+        let fproducts = res.data.products;
+
+        // Sort ngay sau khi fetch
+        if (sortOrder !== "") {
+          fproducts = [...fproducts].sort((a, b) =>
+            sortOrder === "desc"
+              ? new Date(b.release_date) - new Date(a.release_date)
+              : new Date(a.release_date) - new Date(b.release_date)
+          );
+        }
+  
+        setFilterPro(fproducts);
       } catch (error) {
         console.error("Lỗi khi tải sản phẩm:", error);
       }
     };
     fetchData();
-  }, [search, category, brand, minPrice, maxPrice, backendurl]);
+  }, [search, category, brand, minPrice, maxPrice, backendurl,sortOrder]);
 
-  // Sắp xếp theo thời gian
-  useEffect(() => {
-    if (sortOrder !== "") {
-      setFilterPro(prev =>
-        [...prev].sort((a, b) =>
-          sortOrder === "desc"
-            ? new Date(b.release_date) - new Date(a.release_date)
-            : new Date(a.release_date) - new Date(b.release_date)
-        )
-      );
-    }
-  }, [sortFlag, sortOrder]);
 
   const handleCategoryChange = (newCategory) => {
     setCategory(prev => (prev === newCategory ? '' : newCategory));
@@ -74,6 +68,7 @@ const Product = () => {
 
   const handleTimeChange = (newTime) => {
     setSortOrder(prev => (prev === newTime ? '' : newTime));
+    setSortFlag(prev => 1-prev);
     setShowFilterTime(false);
   };
   return (
