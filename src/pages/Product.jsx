@@ -14,7 +14,16 @@ const Product = () => {
   const [showBsl,setShowBsl]=useState(false);
   const [filterPro, setFilterPro] = useState([]);
   const [sortFlag, setSortFlag] = useState(0);
-
+  const handleClearFilter = async ()=>{
+    try {
+      localStorage.removeItem('category');
+      localStorage.removeItem('brand');
+      setMaxPrice(null); setMinPrice(null);
+      setSortOrder('');
+    } catch (error) {
+      toast.error("Can't clear filter !")
+    }
+  }
   // Load từ localStorage
   const getLocal = (key, defaultValue) => localStorage.getItem(key) || defaultValue;
 
@@ -82,7 +91,7 @@ const Product = () => {
           </button>
           {showFilterCategory && (
             <div className='flex flex-col gap-2 text-sm mt-1'>
-              {['Laptop', 'Smartphone', 'Tablet', 'Pc, Printer', 'Smartwatch', 'Accessory'].map(cat => (
+              {['Laptop', 'Smartphone', 'Tablet', 'PcPrinter', 'Smartwatch', 'Accessory'].map(cat => (
                 <p key={cat} onClick={() => handleCategoryChange(cat)}
                    className={`w-36 pl-3 py-1.5 border rounded cursor-pointer hover:bg-primary hover:text-white ${category === cat ? "bg-indigo-200 text-black" : ""}`}>
                   {cat}
@@ -149,7 +158,11 @@ const Product = () => {
             {showBsl ? <span className='bg-primary'>Best seller</span> : 'Best seller'}
           </button>
         </div>
-
+        <div>
+          <button className='py-1 w-36 px-3 border rounded text-sm hover:bg-green-500 cursor-pointer'
+                  onClick={() => handleClearFilter()}>
+          </button>
+        </div>
       </div>
 
       {/* Product Grid */}
