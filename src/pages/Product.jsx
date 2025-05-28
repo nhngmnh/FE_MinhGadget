@@ -22,11 +22,10 @@ const Product = () => {
   const handleClearFilter = async ()=>{
     try {
       localStorage.removeItem('category'); setShowFilterCategory(false);
-      localStorage.removeItem('brand');setShowFilterBrand(false);
+      localStorage.removeItem('brand'); setShowFilterBrand(false);
       setShowBsl(false);
       setMaxPrice(null); setMinPrice(null);setShowFilterPrice(false);
       setSortOrder(''); setShowFilterTime(false);
-      set
     } catch (error) {
       toast.error("Can't clear filter !")
     }
