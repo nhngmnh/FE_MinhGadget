@@ -38,7 +38,7 @@ const Product = () => {
   useEffect(() => {
     localStorage.setItem('category', category);
     localStorage.setItem('brand', brand);
-  }, [search, category, brand, sortOrder, minPrice, maxPrice,showBsl]);
+  }, [search, category, brand, sortOrder, minPrice, maxPrice,showBsl,showFilterBrand,showFilterCategory]);
 
   // Lấy sản phẩm
   useEffect(() => {
