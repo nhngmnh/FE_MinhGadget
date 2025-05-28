@@ -22,8 +22,9 @@ const Product = () => {
   const [minPrice,setMinPrice]=useState(null);
   const handleClearFilter = async ()=>{
     try {
-      localStorage.removeItem('category'); setShowFilterCategory(false);
-      localStorage.removeItem('brand'); setShowFilterBrand(false);
+      localStorage.removeItem('category'); setCategory('');
+      setShowFilterCategory(false);
+      localStorage.removeItem('brand'); setBrand(''); setShowFilterBrand(false);
       setShowBsl(false);
       setMaxPrice(null); setMinPrice(null);setShowFilterPrice(false);
       setSortOrder(''); setShowFilterTime(false);
