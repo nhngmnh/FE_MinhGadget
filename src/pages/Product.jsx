@@ -14,12 +14,19 @@ const Product = () => {
   const [showBsl,setShowBsl]=useState(false);
   const [filterPro, setFilterPro] = useState([]);
   const [sortFlag, setSortFlag] = useState(0);
+  const [category, setCategory] = useState(getLocal('category', ''));
+  const [brand, setBrand] = useState(getLocal('brand', ''));
+  const [sortOrder,setSortOrder]=useState('');
+  const [maxPrice,setMaxPrice]=useState(null);
+  const [minPrice,setMinPrice]=useState(null);
   const handleClearFilter = async ()=>{
     try {
-      localStorage.removeItem('category');
-      localStorage.removeItem('brand');
-      setMaxPrice(null); setMinPrice(null);
-      setSortOrder('');
+      localStorage.removeItem('category'); setShowFilterCategory(false);
+      localStorage.removeItem('brand');setShowFilterBrand(false);
+      setShowBsl(false);
+      setMaxPrice(null); setMinPrice(null);setShowFilterPrice(false);
+      setSortOrder(''); setShowFilterTime(false);
+      set
     } catch (error) {
       toast.error("Can't clear filter !")
     }
@@ -27,16 +34,12 @@ const Product = () => {
   // Load từ localStorage
   const getLocal = (key, defaultValue) => localStorage.getItem(key) || defaultValue;
 
-  const [category, setCategory] = useState(getLocal('category', ''));
-  const [brand, setBrand] = useState(getLocal('brand', ''));
-  const [sortOrder,setSortOrder]=useState('');
-  const [maxPrice,setMaxPrice]=useState(null);
-  const [minPrice,setMinPrice]=useState(null);
+  
   // Lưu vào localStorage khi thay đổi
   useEffect(() => {
     localStorage.setItem('category', category);
     localStorage.setItem('brand', brand);
-  }, [search, category, brand, sortOrder, minPrice, maxPrice]);
+  }, [search, category, brand, sortOrder, minPrice, maxPrice,showBsl]);
 
   // Lấy sản phẩm
   useEffect(() => {
@@ -161,6 +164,7 @@ const Product = () => {
         <div>
           <button className='py-1 w-36 px-3 border rounded text-sm hover:bg-green-500 cursor-pointer'
                   onClick={() => handleClearFilter()}>
+                    Clear filter
           </button>
         </div>
       </div>
