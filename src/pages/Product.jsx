@@ -6,7 +6,8 @@ import axios from 'axios';
 const Product = () => {
   const navigate = useNavigate();
   const { backendurl,search} = useContext(AppContext);
-
+  // Load từ localStorage
+  const getLocal = (key, defaultValue) => localStorage.getItem(key) || defaultValue;
   const [showFilterTime, setShowFilterTime] = useState(false);
   const [showFilterPrice, setShowFilterPrice] = useState(false);
   const [showFilterCategory, setShowFilterCategory] = useState(false);
@@ -30,8 +31,7 @@ const Product = () => {
       toast.error("Can't clear filter !")
     }
   }
-  // Load từ localStorage
-  const getLocal = (key, defaultValue) => localStorage.getItem(key) || defaultValue;
+  
 
   
   // Lưu vào localStorage khi thay đổi
